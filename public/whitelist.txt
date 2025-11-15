@@ -1,2 +1,0 @@
-ModId,Enable Dynamic Download,Allow non-dataonly blueprints
-1234567890,1,0

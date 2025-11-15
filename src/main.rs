@@ -4,7 +4,7 @@ use anyhow::{Context, Result};
 use serde::Deserialize;
 
 const DEFAULT_INPUT: &str = "data/overrides.yaml";
-const DEFAULT_OUTPUT: &str = "public/whitelist.txt";
+const DEFAULT_OUTPUT: &str = "docs/whitelist.txt";
 
 fn main() -> Result<()> {
     let (input_path, output_path) = parse_args();
