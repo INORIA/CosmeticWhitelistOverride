@@ -1,0 +1,2 @@
+ModId,Enable Dynamic Download,Allow non-dataonly blueprints
+1095556,1,1
