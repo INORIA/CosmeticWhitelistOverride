@@ -1,0 +1,6 @@
+# Human-friendly source of truth for CosmeticWhitelistOverride rows.
+entries:
+  - name: "Example Cosmetic Mod"
+    mod_id: "1234567890"
+    enable_dynamic_download: true
+    allow_non_dataonly_blueprints: false
