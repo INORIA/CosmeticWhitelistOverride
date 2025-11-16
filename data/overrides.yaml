@@ -3,5 +3,33 @@ entries:
   - name: "Default Structure Skins"
     mod_id: "1095556"
     enable_dynamic_download: true
+    allow_non_dataonly_blueprints: false
+  - name: "Mythical Costumes"
+    mod_id: "933078"
+    enable_dynamic_download: true
+    allow_non_dataonly_blueprints: true
+  - name: "Fake railing"
+    mod_id: "1143958"
+    enable_dynamic_download: true
+    allow_non_dataonly_blueprints: true
+  - name: "VVA"
+    mod_id: "1285785"
+    enable_dynamic_download: true
+    allow_non_dataonly_blueprints: true
+  - name: "Lena_Firefly"
+    mod_id: "1099506"
+    enable_dynamic_download: true
+    allow_non_dataonly_blueprints: true
+  - name: "C&J's RP Outfits"
+    mod_id: "1372257"
+    enable_dynamic_download: true
+    allow_non_dataonly_blueprints: true
+  - name: "Mythical Armory"
+    mod_id: "967786"
+    enable_dynamic_download: true
+    allow_non_dataonly_blueprints: true
+  - name: "Crystal Structures [Skin]"
+    mod_id: "1069156"
+    enable_dynamic_download: true
     allow_non_dataonly_blueprints: true
 
