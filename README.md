@@ -1,14 +1,17 @@
 # Cosmetic Whitelist Override
 
-Rust-based generator that turns human-friendly YAML entries into the CSV-format
-`whitelist.txt` consumed by CosmeticWhitelistOverride.
+Rust-based generator that turns human-friendly YAML entries into the flattened
+`whitelist.txt` consumed by CosmeticWhitelistOverride. The output format is a
+single line with comma-separated rows, and each row is a pipe-delimited triple:
+`ModId|Enable Dynamic Download|Allow non-dataonly blueprints` (booleans as
+`1`/`0`).
 
 ## Layout
 
 - `data/overrides.yaml`: source of truth; list of entries (`name`, `mod_id`,
   `enable_dynamic_download`, `allow_non_dataonly_blueprints`).
-- `src/main.rs`: generator; reads YAML with `serde_yaml` and emits CSV rows by
-  converting booleans to `1`/`0`.
+- `src/main.rs`: generator; reads YAML with `serde_yaml` and emits joined
+  `mod_id|flag|flag` rows with no header or trailing newline.
 - `docs/whitelist.txt`: generated artifact ready to distribute or publish.
 
 ## Usage
@@ -18,8 +21,8 @@ cargo run -- data/overrides.yaml docs/whitelist.txt
 ```
 
 Arguments are optional: defaults are the same as in the example above. The tool
-creates `docs/` if needed, writes the CSV header, then each entry as
-`ModId,Enable Dynamic Download,Allow non-dataonly blueprints`.
+creates `docs/` if needed, converts each entry into `ModId|1|0`, then joins
+rows with commas so the entire file is a single line without a header.
 
 ## Adding Entries
 

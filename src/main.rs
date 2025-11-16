@@ -1,4 +1,9 @@
-use std::{env, fs::File, path::PathBuf};
+use std::{
+    env,
+    fs::{self, File},
+    io::{BufWriter, Write},
+    path::PathBuf,
+};
 
 use anyhow::{Context, Result};
 use serde::Deserialize;
@@ -16,35 +21,26 @@ fn main() -> Result<()> {
         .with_context(|| format!("Unable to parse YAML at {}", input_path.display()))?;
 
     if let Some(parent) = output_path.parent() {
-        std::fs::create_dir_all(parent).with_context(|| {
-            format!(
-                "Unable to create output directory {}",
-                parent.display()
-            )
+        fs::create_dir_all(parent).with_context(|| {
+            format!("Unable to create output directory {}", parent.display())
         })?;
     }
 
     let output_file = File::create(&output_path).with_context(|| {
         format!("Unable to create output file {}", output_path.display())
     })?;
+    let mut writer = BufWriter::new(output_file);
 
-    let mut writer = csv::WriterBuilder::new()
-        .has_headers(true)
-        .from_writer(output_file);
+    let rows: Vec<String> = overrides
+        .entries
+        .into_iter()
+        .map(|entry| format_row(&entry))
+        .collect();
 
-    writer.write_record([
-        "ModId",
-        "Enable Dynamic Download",
-        "Allow non-dataonly blueprints",
-    ])?;
-
-    for entry in overrides.entries {
-        writer.write_record([
-            entry.mod_id.as_str(),
-            flag(entry.enable_dynamic_download),
-            flag(entry.allow_non_dataonly_blueprints),
-        ])?;
-    }
+    let payload = rows.join(",");
+    writer
+        .write_all(payload.as_bytes())
+        .with_context(|| format!("Unable to write output file {}", output_path.display()))?;
 
     writer.flush()?;
 
@@ -80,6 +76,15 @@ fn flag(value: bool) -> &'static str {
     }
 }
 
+fn format_row(entry: &Entry) -> String {
+    format!(
+        "{}|{}|{}",
+        entry.mod_id,
+        flag(entry.enable_dynamic_download),
+        flag(entry.allow_non_dataonly_blueprints)
+    )
+}
+
 #[derive(Debug, Deserialize)]
 struct Overrides {
     entries: Vec<Entry>,
@@ -96,11 +101,23 @@ struct Entry {
 
 #[cfg(test)]
 mod tests {
-    use super::flag;
+    use super::{flag, format_row, Entry};
 
     #[test]
     fn converts_bool_to_flag() {
         assert_eq!(flag(true), "1");
         assert_eq!(flag(false), "0");
+    }
+
+    #[test]
+    fn formats_row_with_pipe_delimiters() {
+        let entry = Entry {
+            name: String::from("Test"),
+            mod_id: String::from("mod"),
+            enable_dynamic_download: true,
+            allow_non_dataonly_blueprints: false,
+        };
+
+        assert_eq!(format_row(&entry), "mod|1|0");
     }
 }
