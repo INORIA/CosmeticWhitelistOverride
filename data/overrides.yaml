@@ -1,4 +1,4 @@
-# Human-friendly source of truth for CosmeticWhitelistOverride rows.
+﻿# Human-friendly source of truth for CosmeticWhitelistOverride rows.
 entries:
   - name: "Default Structure Skins"
     mod_id: "1095556"
@@ -16,7 +16,7 @@ entries:
     mod_id: "1285785"
     enable_dynamic_download: true
     allow_non_dataonly_blueprints: true
-  - name: "Lena_Firefly"
+  - name: "Lena_Firefly流萤衣服"
     mod_id: "1099506"
     enable_dynamic_download: true
     allow_non_dataonly_blueprints: true
@@ -32,4 +32,3 @@ entries:
     mod_id: "1069156"
     enable_dynamic_download: true
     allow_non_dataonly_blueprints: true
-

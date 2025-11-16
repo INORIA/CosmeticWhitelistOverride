@@ -17,12 +17,14 @@ single line with comma-separated rows, and each row is a pipe-delimited triple:
 ## Usage
 
 ```shell
-cargo run -- data/overrides.yaml docs/whitelist.txt
+cargo run -- data/overrides.yaml docs/whitelist.txt OfficialPVECosmeticWhitelist.txt
 ```
 
-Arguments are optional: defaults are the same as in the example above. The tool
-creates `docs/` if needed, converts each entry into `ModId|1|0`, then joins
-rows with commas so the entire file is a single line without a header.
+Arguments are optional: the first two fall back to the default paths, and the
+third (base whitelist) is optional. When provided, the generator reads that file
+(same format) and prepends it to the locally generated rows. The tool creates
+`docs/` if needed, converts each YAML entry into `ModId|1|0`, then joins base +
+custom rows with commas so the entire file is a single line without a header.
 
 ## Adding Entries
 
@@ -45,8 +47,10 @@ entries:
 the generator or data. It:
 
 1. Checks out the repo and installs stable Rust.
-2. Executes `cargo run -- data/overrides.yaml docs/whitelist.txt`.
-3. Commits and pushes `docs/whitelist.txt` back to `main` if it changed.
+2. Downloads `https://cdn2.arkdedicated.com/asa/OfficialPVECosmeticWhitelist.txt`
+   and feeds it to the generator.
+3. Executes `cargo run -- data/overrides.yaml docs/whitelist.txt OfficialPVECosmeticWhitelist.txt`.
+4. Commits and pushes `docs/whitelist.txt` back to `main` if it changed.
 
 This keeps `docs/whitelist.txt` in sync automatically whenever the YAML or
 generator changes.

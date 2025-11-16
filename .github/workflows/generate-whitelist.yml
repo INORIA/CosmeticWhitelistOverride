@@ -24,8 +24,11 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Download official whitelist
+        run: curl -sSfL https://cdn2.arkdedicated.com/asa/OfficialPVECosmeticWhitelist.txt -o OfficialPVECosmeticWhitelist.txt
+
       - name: Generate whitelist
-        run: cargo run -- data/overrides.yaml docs/whitelist.txt
+        run: cargo run -- data/overrides.yaml docs/whitelist.txt OfficialPVECosmeticWhitelist.txt
 
       - name: Commit changes
         run: |
@@ -38,3 +41,4 @@ jobs:
           else
             echo "No changes in docs/whitelist.txt"
           fi
+
